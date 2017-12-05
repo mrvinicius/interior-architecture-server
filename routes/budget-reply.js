@@ -67,7 +67,7 @@ module.exports = {
 
         updateQuery = {
           repliedAt: new Date(),
-          // availability: req.body.availability,
+          availability: req.body.availability,
           status: req.body.status,
           unitPrice: req.body.unitPrice,
           totalPrice: req.body.totalPrice,

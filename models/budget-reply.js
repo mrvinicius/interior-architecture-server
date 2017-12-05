@@ -16,9 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         repliedAt: {
             type: DataTypes.DATE
         },
-        // availability: {
-        //     type: DataTypes.BOOLEAN
-        // },
+        availability: {
+            type: DataTypes.BOOLEAN
+        },
         measureUnit: {
             type: DataTypes.ENUM,
             values: ['units', 'kg', 'measurement2d', 'measurement3d', 'liter']
