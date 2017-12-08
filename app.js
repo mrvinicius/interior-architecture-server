@@ -41,6 +41,16 @@ require('./routes')(app);
 const port = parseInt(process.env.PORT, 10) || 8000;
 app.set('port', port);
 
+// Run the app by serving the static files
+// in the dist directory
+app.use(express.static(__dirname + '/public'));
+
+// For all GET requests, send back index.html
+// so that PathLocationStrategy can be used
+app.get('/*', function (req, res) {
+	res.sendFile(path.join(__dirname + '/public/index.html'));
+});
+
 const server = http.createServer(app);
 models.sequelize.sync().then(() => {
 	/**
@@ -51,16 +61,6 @@ models.sequelize.sync().then(() => {
 	});
 	server.on('error', onError);
 	// server.on('listening', onListening);
-
-	// Run the app by serving the static files
-	// in the dist directory
-	app.use(express.static(__dirname + '/public'));
-
-	// For all GET requests, send back index.html
-	// so that PathLocationStrategy can be used
-	app.get('/*', function (req, res) {
-		res.sendFile(path.join(__dirname + '/public/index.html'));
-	});
 });
 
 /**
