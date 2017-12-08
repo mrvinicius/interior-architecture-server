@@ -1,5 +1,6 @@
 'use strict';
-
+const env = process.env.NODE_ENV || 'development';
+const config = require(`${__dirname}/../config/config.json`)[env];
 const nodemailer = require('nodemailer');
 const Email = require('email-templates');
 
@@ -78,13 +79,15 @@ function getOneStore(id) {
 }
 
 function sendBudgetRequestEmail(store, replyId) {
+
+
   return email.send({
     template: 'budget-request',
     message: {
       to: store.email
     },
     locals: {
-      replyId: replyId
+      replyPageUrl: `${config.baseUrl}/fornecedor/orcamento/${replyId}`
     }
   })
 }

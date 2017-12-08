@@ -1,5 +1,6 @@
 {
   "development": {
+    "baseUrl": "http://localhost:8000",
     "username": "tgywiizbkrvetr",
     "password": "4d7532421b2c6d45ccd08176204bbdf6101c72fde24a6670bfb01a4c3f9317db",
     "database": "d33sfebdui0m9k",
@@ -17,6 +18,7 @@
     }
   },
   "staging": {
+    "baseUrl": "https://archabox-staging.herokuapp.com",
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {
@@ -30,6 +32,7 @@
     }
   },
   "production": {
+    "baseUrl": "https://archabox.herokuapp.com",
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {
