@@ -1,7 +1,9 @@
 const express = require('express');
 const http = require('http');
+const path = require('path');
 const bodyParser = require('body-parser');
 const models = require('./models');
+const env = process.env.NODE_ENV || 'development';
 const app = express();
 
 app.use(bodyParser.json());
@@ -11,6 +13,28 @@ app.use((req, res, next) => {
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 	next();
 });
+
+// If an incoming request uses
+// a protocol other than HTTPS,
+// redirect that request to the
+// same url but with HTTPS
+const forceSSL = function () {
+	return function (req, res, next) {
+		if (req.headers['x-forwarded-proto'] !== 'https') {
+			return res.redirect(
+				['https://', req.get('Host'), req.url].join('')
+			);
+		}
+		next();
+	}
+}
+
+if (env !== 'development') {
+	// Instruct the app
+	// to use the forceSSL
+	// middleware
+	app.use(forceSSL());
+}
 
 require('./routes')(app);
 
@@ -27,12 +51,21 @@ models.sequelize.sync().then(() => {
 	});
 	server.on('error', onError);
 	// server.on('listening', onListening);
+
+	// Run the app by serving the static files
+	// in the dist directory
+	app.use(express.static(__dirname + '/dist'));
+
+	// For all GET requests, send back index.html
+	// so that PathLocationStrategy can be used
+	app.get('/*', function (req, res) {
+		res.sendFile(path.join(__dirname + '/dist/index.html'));
+	});
 });
 
 /**
  * Event listener for HTTP server "error" event.
  */
-
 function onError(error) {
 	if (error.syscall !== 'listen') {
 		throw error;
@@ -60,7 +93,6 @@ function onError(error) {
 /**
  * Event listener for HTTP server "listening" event.
  */
-
 function onListening() {
 	var addr = server.address();
 	var bind = typeof addr === 'string'
