@@ -1,16 +1,34 @@
 const Supplier = require('../models').Supplier;
 const Store = require('../models').Store;
 
+function createSupplier(supplier) {
+    let creationData = {
+        name: supplier.name,
+        defaultEmail: supplier.defaultEmail,
+        phone: supplier.phone
+    };
+
+    if (supplier.id && supplier.id.length) {
+        creationData['id'] = supplier.id;
+    }
+
+    return Supplier
+        .create(creationData);
+}
+
 module.exports = {
     create(req, res) {
-        return Supplier
-            .create({
-                name: req.body.name,
-                defaultEmail: req.body.defaultEmail,
-                phone: req.body.phone
-            })
-            .then((supplier) => res.status(201).send(supplier))
-            .catch((error) => res.status(400).send(error));
+		if (Array.isArray(req.body)) {
+			console.log(req)
+			return Promise
+				.all(req.body.map(supplier => createSupplier(supplier)))
+				.then((suppliers) => res.status(201).send(suppliers))
+				.catch((error) => res.status(400).send(error));
+		} else {
+			return createSupplier(req.body)
+				.then((supplier) => res.status(201).send(supplier))
+				.catch((error) => res.status(400).send(error));
+        }
     },
     getAll(req, res) {
         return Supplier

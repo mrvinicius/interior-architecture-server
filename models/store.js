@@ -13,7 +13,19 @@ module.exports = (sequelize, DataTypes) => {
         },
         email: {
             type: DataTypes.STRING(40),
-            allowNull: false
+            allowNull: true
+        },
+        state: {
+            type: DataTypes.STRING(3),
+        },
+        city: {
+            type: DataTypes.STRING,
+        },
+        neighborhood: {
+            type: DataTypes.STRING,
+        },
+        address: {
+            type: DataTypes.STRING,
         },
         phone: {
             type: DataTypes.STRING(20)
