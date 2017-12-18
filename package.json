@@ -1,7 +1,7 @@
 {
   "name": "archabox_server",
   "version": "1.0.0",
-  "description": "APIs REST do Archabox",
+  "description": "Archabox Server",
   "author": {
     "name": "Vinicius Rocha",
     "email": "mvinicius.gbo@gmail.com"
