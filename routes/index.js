@@ -27,6 +27,7 @@ module.exports = (app) => {
     
     // User
     app.post('/api/user/create', userController.create);
+    app.post('/api/user/login', userController.login);
     app.get('/api/user/getOne', userController.getOne);
 
     // BudgetReply

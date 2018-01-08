@@ -7,7 +7,7 @@ module.exports = {
     let creationData = {
         email: req.body.email,
         name: req.body.name,
-        lastname: req.body.lastname
+        password: req.body.password
       },
       error = null;
 
@@ -25,13 +25,16 @@ module.exports = {
     return User.create(creationData)
       .then(user => res.status(201).send(user))
       .catch(error => {
-        if (error.name === 'SequelizeUniqueConstraintError' && error.fields.email) {
+        if (
+          error.name === "SequelizeUniqueConstraintError" &&
+          error.fields.email
+        ) {
           error = {};
           error.code = "user/existent-email";
           error.message = `O email ${creationData.email} já está cadastrado`;
         }
 
-        return res.status(400).send(error)
+        return res.status(400).send(error);
       });
   },
   getOne(req, res) {
@@ -44,8 +47,30 @@ module.exports = {
           return res.status(404).send(error);
         }
 
-        res.status(200).send(user);
+        return res.status(200).send(user);
       })
       .catch(error => res.status(400).send(error));
+  },
+  login(req, res) {
+    return User.findOne({
+      where: {
+        email: req.body.email,
+        password: req.body.password
+      }
+    })
+      .then(user => {
+        if (!user) {
+          let error = {};
+          error.code = "user/not-found";
+          error.message = "Email ou senha incorretos";
+          return res.status(404).send(error);
+        }
+
+        return res.status(200).send(user);
+      })
+      .catch(error => {
+        console.log(error);
+        return res.status(401).send(error);
+      });
   }
 };
