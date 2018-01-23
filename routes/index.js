@@ -4,6 +4,7 @@ const storeController = require('./store');
 const productController = require('./product');
 const budgetReqController = require('./budget-request');
 const budgetReplyController = require('./budget-reply');
+const iuguController = require('./iugu');
 
 module.exports = (app) => {
     // Supplier
@@ -19,6 +20,7 @@ module.exports = (app) => {
     app.get('/api/budget/getAll', budgetReqController.getAll);
     app.post('/api/budget/disable', budgetReqController.disable);
     app.get('/api/budget/getByReply/:replyId', budgetReqController.getByReply);
+    app.get('/api/budget/getOne/:id', budgetReqController.getOne);
 
     // Product
     app.post('/api/product/create', productController.create);
@@ -29,7 +31,12 @@ module.exports = (app) => {
     app.post('/api/user/create', userController.create);
     app.post('/api/user/login', userController.login);
     app.get('/api/user/getOne', userController.getOne);
+    app.post('/api/user/update', userController.update);
+    app.get('/api/user/getAll', userController.getAll);
 
     // BudgetReply
     app.post('/api/reply/:id', budgetReplyController.update);
+
+    // IUGU
+    app.post('/api/billing/charge', iuguController.charge);
 }

@@ -72,5 +72,43 @@ module.exports = {
         console.log(error);
         return res.status(401).send(error);
       });
+  },
+  update(req, res) {
+    return User.findById(req.body.id)
+      .then(user => {
+        let updateQuery;
+
+        if (!user) {
+          let error = {};
+          error.code = "user/not-found";
+          error.message = "ID de Usuário não encontrado";
+          return res.status(404).send(error);
+        }
+
+        updateQuery = req.body.changes;
+        updateQuery.repliedAt = new Date();
+
+        if (updateQuery.password) {
+          delete updateQuery.password;
+        }
+
+        return user
+          .update(updateQuery)
+          .then(() => res.status(204).send())
+          .catch(error => res.status(400).send(error));
+      })
+      .catch(error => res.status(400).send(error));
+  },
+  getAll(req, res) {
+    let findAllQuery = {
+      order: [
+        ["createdAt", "DESC"]
+      ],
+      where: {}
+    };
+
+    return User.findAll(findAllQuery)
+    .then(users => res.status(200).send(users))
+    .catch(error => res.status(400).send(error));
   }
 };

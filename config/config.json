@@ -5,6 +5,7 @@
     "password": "4d7532421b2c6d45ccd08176204bbdf6101c72fde24a6670bfb01a4c3f9317db",
     "database": "d33sfebdui0m9k",
     "host": "ec2-54-83-19-82.compute-1.amazonaws.com",
+    "iugu_key": "1084fbb9ed281bf600717c7d149154c0",
     "port": 5432,
     "dialect": "postgres",
     "dialectOptions": {
@@ -19,6 +20,7 @@
   },
   "staging": {
     "baseUrl": "https://archabox-staging.herokuapp.com",
+    "iugu_key_env_variable": "IUGU_KEY",
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {
@@ -33,6 +35,7 @@
   },
   "production": {
     "baseUrl": "https://archabox.herokuapp.com",
+    "iugu_key_env_variable": "IUGU_KEY",
     "use_env_variable": "DATABASE_URL",
     "dialect": "postgres",
     "dialectOptions": {

@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notEmpty: true
       }
+    },
+    iuguCustomerId: {
+      type: DataTypes.STRING,
+      unique: true,
     }
     // confirmed: {
     //     type: DataTypes.BOOLEAN,
